@@ -1,14 +1,13 @@
 import requests
-import json
 
 locations = [
-    ("Germany (Hesse)", 51.00000000, 9.00000000),
-    ("Spain (Castilla-La Mancha)", 40.00000000, -4.00000000)
+    ("Germany (Hesse)", 51.0, 9.0),
+    ("Spain (Castilla-La Mancha)", 40.0, -4.0)
 ]
 
 def get_weather(latitude, longitude):
-    api_url = f"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&hourly=temperature_2m"
-    response = requests.get(api_url)
+    url = f"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&hourly=temperature_2m"
+    response = requests.get(url)
 
     if response.status_code == 200:
         return response.json()
@@ -16,37 +15,57 @@ def get_weather(latitude, longitude):
         print("Error:", response.status_code)
         return None
 
-def display_temperatures(data):
-    if data is None:
-        print("No data available.")
-        return
 
-    temperatures = data["hourly"]["temperature_2m"]
+def analyze_temperatures(temperatures):
+    total = 0
+    count = 0
+    highest = -100
+    lowest = 100
 
-    print("\nTemperatures:")
     for temp in temperatures:  # iteration
         if temp is not None:   # selection
-            print(temp)
+            total += temp
+            count += 1
 
-print("Choose a location:")
-for i in range(len(locations)):
-    print(f"{i+1}: {locations[i][0]}")
+            if temp > highest:
+                highest = temp
+            if temp < lowest:
+                lowest = temp
 
-while True:
-    try:
-        choice = int(input("Enter number: "))
-        if 1 <= choice <= len(locations):
-            break
-        else:
-            print("Invalid choice. Try again.")
-    except:
-        print("Please enter a valid number.")
+    if count > 0:
+        average = total / count
+        print("\nWeather Analysis:")
+        print("Average temperature:", round(average, 2))
+        print("Highest temperature:", highest)
+        print("Lowest temperature:", lowest)
+    else:
+        print("No valid temperature data.")
 
-selected_location = locations[choice - 1]
-name, lat, lon = selected_location
+def display_menu():
+    print("Choose a location:")
+    for i in range(len(locations)):
+        print(f"{i+1}: {locations[i][0]}")
 
+def get_user_choice():
+    while True:
+        try:
+            choice = int(input("Enter number: "))
+            if 1 <= choice <= len(locations):
+                return choice - 1
+            else:
+                print("Invalid choice. Try again.")
+        except:
+            print("Please enter a valid number.")
+
+
+display_menu()
+index = get_user_choice()
+
+name, lat, lon = locations[index]
 print(f"\nYou selected: {name}")
 
-
 weather_data = get_weather(lat, lon)
-display_temperatures(weather_data)
+
+if weather_data:
+    temps = weather_data["hourly"]["temperature_2m"]
+    analyze_temperatures(temps)
