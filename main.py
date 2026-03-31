@@ -19,8 +19,8 @@ def get_weather(latitude, longitude):
 def analyze_temperatures(temperatures):
     total = 0
     count = 0
-    highest = -100
-    lowest = 100
+    highest = float('-inf')
+    lowest = float('inf')
 
     for temp in temperatures:  # iteration
         if temp is not None:   # selection
