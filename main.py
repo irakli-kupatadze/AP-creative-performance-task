@@ -25,8 +25,8 @@ def analyze_temperatures(temperatures):
     highest = float('-inf')
     lowest = float('inf')
 
-    for temp in temperatures:  # iteration
-        if temp is not None:   # selection
+    for temp in temperatures:
+        if temp is not None:
             total += temp
             count += 1
 
@@ -38,9 +38,9 @@ def analyze_temperatures(temperatures):
     if count > 0:
         average = total / count
         print("\nWeather Analysis:")
-        print("Average temperature:", round(average, 2))
-        print("Highest temperature:", highest)
-        print("Lowest temperature:", lowest)
+        print("Average temperature:", round(average, 2) ,"℃" )
+        print("Highest temperature:", highest ,"℃" )
+        print("Lowest temperature:", lowest ,"℃" )
     else:
         print("No valid temperature data.")
 
