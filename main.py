@@ -1,8 +1,11 @@
 import requests
 
 locations = [
-    ("Germany (Hesse)", 51.0, 9.0),
-    ("Spain (Castilla-La Mancha)", 40.0, -4.0)
+    ("Berlin, Germany", 52.52, 13.41),
+    ("Madrid, Spain", 40.42, -3.70),
+    ("Paris, France", 48.85, 2.35),
+    ("Rome, Italy", 41.90, 12.50),
+    ("New York City, USA", 40.71, -74.01)
 ]
 
 def get_weather(latitude, longitude):
