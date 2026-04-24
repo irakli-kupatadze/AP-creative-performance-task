@@ -9,7 +9,9 @@ locations = [
 ]
 
 def get_weather(latitude, longitude):
-    url = f"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&hourly=temperature_2m"
+    baseurl = "https://api.open-meteo.com/v1/forecast"
+    params = f"?latitude={latitude}&longitude={longitude}&hourly=temperature_2m"
+    url = f"{baseurl}{params}"
     response = requests.get(url)
 
     if response.status_code == 200:
